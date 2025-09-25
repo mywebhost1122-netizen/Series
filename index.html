@@ -6,21 +6,30 @@
     <title>Anime Buzz - एडमिन पैनल</title>
     <style>
         :root { --primary: #E50914; --secondary: #222; --background: #141414; --text-primary: #fff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+        }
         body { background-color: var(--background); color: var(--text-primary); }
         .view { display: none; padding: 20px; padding-bottom: 100px; }
         .view.active { display: block; }
         .container { max-width: 1200px; margin: auto; }
-        button { cursor: pointer; padding: 12px 20px; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; }
+        button { cursor: pointer; padding: 12px 20px; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; transition: background-color 0.3s; }
         .btn-primary { background-color: var(--primary); color: var(--text-primary); width: 100%; }
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         header h1 { font-size: 28px; }
+        .btn-back { font-size: 28px; background: none; border: none; color: var(--text-primary); }
         .list-section { background-color: var(--secondary); padding: 20px; border-radius: 8px; }
         .list-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 4px; }
         .list-item:nth-child(even) { background-color: #2a2a2a; }
+        .list-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
+        
         .list-item-actions button { background: none; border: none; color: #aaa; margin-left: 15px; padding: 5px; display: inline-flex; align-items: center; justify-content: center; }
         .list-item-actions button svg { width: 20px; height: 20px; }
         .list-item-actions button:hover { color: var(--primary); }
+
+        .btn-change-text { background-color: #444; color: white; font-size: 14px; padding: 5px 10px; border-radius: 4px; }
+        .list-item-details { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; padding-right: 10px; }
+        .list-item-details .current-btn-text { font-size: 12px; color: #ccc; margin-top: 4px; }
         #form-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--background); z-index: 1500; overflow-y: auto; display: none; }
         #form-view .form-container { padding: 20px; padding-bottom: 80px; }
         #form-view .form-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -36,50 +45,69 @@
         .form-group label { display: block; margin-bottom: 8px; font-weight: bold; }
         .form-group input, .form-group textarea { width: 100%; padding: 12px; border-radius: 4px; border: 1px solid #444; background-color: #333; color: var(--text-primary); font-size: 16px; }
         .form-group textarea { resize: vertical; min-height: 100px; }
-        .bottom-action-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--secondary); display: flex; justify-content: space-around; align-items: center; height: 60px; box-shadow: 0 -2px 10px rgba(0,0,0,0.5); z-index: 500; }
-        .bar-icon { background: none; border: none; color: #aaa; display: flex; flex-direction: column; align-items: center; font-size: 12px; gap: 4px; width: 40%; height: 100%; justify-content: center; }
+        
+        .bottom-action-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--secondary); display: flex; justify-content: space-evenly; align-items: center; height: 60px; padding: 0 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.5); z-index: 500; }
+        .bar-icon { background: none; border: none; color: #aaa; display: flex; flex-direction: column; align-items: center; font-size: 12px; gap: 4px; flex-grow: 1; height: 100%; justify-content: center; }
         .bar-icon.active { color: var(--primary); }
         .bar-icon svg { width: 24px; height: 24px; }
-        .fab { width: 56px; height: 56px; border-radius: 50%; background-color: var(--primary); color: white; font-size: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.4); position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 501; }
+
+        .fab { width: 56px; height: 56px; border-radius: 50%; background-color: var(--primary); color: white; font-size: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.4); position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%); z-index: 501; }
+        
         #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 3000; }
         .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 15px; padding: 20px; }
+        .color-swatch { width: 100%; aspect-ratio: 1/1; border-radius: 50%; cursor: pointer; border: 2px solid #555; transition: transform 0.2s, box-shadow 0.2s; }
+        .color-swatch:hover { transform: scale(1.1); box-shadow: 0 0 10px var(--primary); }
     </style>
 </head>
 <body>
     <div id="banners-view" class="view active"><div class="container"><header><h1>Banners</h1></header><div class="list-section"><div id="animeBanners-list"></div></div></div></div>
     <div id="anime-view" class="view"><div class="container"><header><h1>Anime</h1></header><div class="list-section"><div id="anime-list"></div></div></div></div>
+    <div id="updates-view" class="view"><div class="container"><header><h1>Updates</h1></header><div class="list-section"><div id="updates-list"></div></div></div></div>
+    <div id="settings-view" class="view"><div class="container"><header><h1>Button Settings</h1></header><h2 style="margin-bottom: 15px;">Banners</h2><div class="list-section" style="margin-bottom: 30px;"><div id="banner-settings-list"></div></div><h2 style="margin-bottom: 15px;">Anime</h2><div class="list-section"><div id="anime-settings-list"></div></div></div></div>
+    
+    <div id="color-picker-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Change Button Color</h1><div></div></header><div class="color-grid" id="color-grid"></div></div></div>
+    <div id="background-form-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Change Background</h1><div></div></header><form id="background-form"><div class="form-group"><label for="backgroundUrlInput">Background Image URL</label><input type="url" id="backgroundUrlInput" placeholder="https://example.com/image.jpg" required></div><button type="submit" class="btn-primary">Save Background</button></form></div></div>
 
     <div id="form-view">
         <div class="form-container container">
             <div class="form-header"><h2 id="form-title"></h2><button class="btn-close-form" onclick="closeForm()">×</button></div>
             <form id="main-form">
                 <input type="hidden" id="docId"><input type="hidden" id="collectionName">
-                <div class="form-group"><label for="title">Title</label><input type="text" id="title" required></div>
-                <div class="form-group"><label for="imageUrl">Image URL</label><input type="url" id="imageUrl" required></div>
-                <div class="form-group for-anime-only"><label for="category">Category</label><input type="text" id="category"></div>
+                <div class="form-group"><label for="title">Title</label><input type="text" id="title"></div>
+                <div class="form-group"><label for="imageUrl" id="imageUrlLabel">Image URL</label><input type="url" id="imageUrl"></div>
+                <div class="form-group"><label for="category">Category</label><input type="text" id="category"></div>
                 <div class="form-group"><label for="description">Description</label><textarea id="description"></textarea></div>
-                <div class="form-group for-anime-only"><label for="language">Language</label><input type="text" id="language"></div>
+                <div class="form-group"><label for="language">Language</label><input type="text" id="language"></div>
                 <div class="form-group"><label for="channelBotLink">Channel Link</label><input type="url" id="channelBotLink"></div>
                 <button type="submit" class="btn-primary" style="margin-top: 20px;">Save</button>
             </form>
         </div>
     </div>
 
-    <div id="add-choice-modal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Add New</h2><button class="close-btn" onclick="hideAddChoice()">×</button></div><div class="choice-buttons"><button class="btn-primary" onclick="openForm('anime')">Add Anime</button><button class="btn-primary" onclick="openForm('animeBanners')">Add Banner</button></div></div></div>
+    <div id="add-choice-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Options</h2><button class="close-btn" onclick="hideAddChoice()">×</button></div>
+            <div class="choice-buttons">
+                <button class="btn-primary" onclick="openForm('updates')">Add Update</button>
+                <button class="btn-primary" onclick="openForm('anime')">Add Anime</button>
+                <button class="btn-primary" onclick="openForm('animeBanners')">Add Banner</button>
+                <button class="btn-primary" onclick="showColorPicker()">Change Button Color</button>
+                <button class="btn-primary" onclick="showBackgroundForm()">Change Background Wallpaper</button>
+            </div>
+        </div>
+    </div>
     
     <nav class="bottom-action-bar">
-        <button id="nav-banners" class="bar-icon active" onclick="switchView('banners-view')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-            <span>Banners</span>
-        </button>
-        <button id="nav-anime" class="bar-icon" onclick="switchView('anime-view')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
-            <span>Anime</span>
-        </button>
+        <button id="nav-banners" class="bar-icon active" onclick="switchView('banners-view')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg><span>Banners</span></button>
+        <button id="nav-anime" class="bar-icon" onclick="switchView('anime-view')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg><span>Anime</span></button>
+        <button class="fab" onclick="showAddChoice()">+</button>
+        <button id="nav-updates" class="bar-icon" onclick="switchView('updates-view')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12h2.5"/><path d="M19.5 7.5c-1.342-2.13-3.42-3.5-5.5-3.5-3.038 0-6.5 2.462-6.5 5.5s3.462 6.5 6.5 6.5c2.08 0 4.158-1.37 5.5-3.5"/><path d="M12.5 8H12v6h6"/></svg><span>Updates</span></button>
+        <button id="nav-settings" class="bar-icon" onclick="switchView('settings-view')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Settings</span></button>
     </nav>
-    <button class="fab" onclick="showAddChoice()">+</button>
-
+    
     <div id="loader"><div class="spinner"></div></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -98,16 +126,20 @@
         
         const mainForm = document.getElementById('main-form');
         const loader = document.getElementById('loader');
+        const titleInput = document.getElementById('title');
+        const imageUrlInput = document.getElementById('imageUrl');
+        const descriptionInput = document.getElementById('description');
         let lastActiveView = 'banners-view';
 
         function switchView(viewId) {
-            lastActiveView = viewId;
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
-            document.querySelectorAll('.bar-icon').forEach(i => i.classList.remove('active'));
-            const navId = `nav-${viewId.split('-')[0]}`;
-            if(document.getElementById(navId)) {
-                document.getElementById(navId).classList.add('active');
+            
+            if (!['color-picker-view', 'background-form-view'].includes(viewId)) {
+                lastActiveView = viewId;
+                document.querySelectorAll('.bar-icon').forEach(i => i.classList.remove('active'));
+                const navIconId = `nav-${viewId.split('-')[0]}`;
+                if (document.getElementById(navIconId)) document.getElementById(navIconId).classList.add('active');
             }
         }
 
@@ -116,24 +148,50 @@
             mainForm.reset();
             document.getElementById('docId').value = docId;
             document.getElementById('collectionName').value = collection;
-            document.getElementById('form-title').innerText = `${mode === 'edit' ? 'Edit' : 'Add New'} ${collection === 'anime' ? 'Anime' : 'Banner'}`;
             
-            document.querySelectorAll('.for-anime-only').forEach(field => {
-                field.style.display = collection === 'anime' ? 'block' : 'none';
-            });
+            titleInput.required = false;
+            imageUrlInput.required = false;
+            descriptionInput.required = false;
+            
+            document.querySelectorAll('#main-form .form-group').forEach(group => group.style.display = 'none');
+            
+            let formTitle = '';
+            document.getElementById('imageUrlLabel').innerText = 'Image URL';
 
-            if (mode === 'edit') {
+            if (collection === 'anime' || collection === 'animeBanners') {
+                formTitle = `${mode === 'edit' ? 'Edit' : 'Add New'} ${collection === 'anime' ? 'Anime' : 'Banner'}`;
+                document.querySelectorAll('#title, #imageUrl, #description, #channelBotLink').forEach(el => el.parentElement.style.display = 'block');
+                titleInput.required = true;
+                imageUrlInput.required = true;
+                if (collection === 'anime') {
+                    document.querySelectorAll('#category, #language').forEach(el => el.parentElement.style.display = 'block');
+                }
+            } else if (collection === 'updates') {
+                formTitle = `${mode === 'edit' ? 'Edit' : 'Add New'} Update`;
+                document.querySelectorAll('#title, #imageUrl, #description').forEach(el => el.parentElement.style.display = 'block');
+                document.getElementById('imageUrlLabel').innerText = 'Banner URL';
+                imageUrlInput.required = true;
+                descriptionInput.required = true;
+            }
+            document.getElementById('form-title').innerText = formTitle;
+            
+            if (mode === 'edit' && docId) {
                 loader.style.display = 'flex';
                 const doc = await db.collection(collection).doc(docId).get();
-                const data = doc.data();
-                document.getElementById('title').value = data.title || '';
-                document.getElementById('imageUrl').value = data.imageUrl || '';
-                document.getElementById('description').value = data.description || '';
-                document.getElementById('channelBotLink').value = data.episodeLink || '';
-                
-                if (collection === 'anime') {
-                    document.getElementById('category').value = data.category || '';
-                    document.getElementById('language').value = data.language || '';
+                if (doc.exists) {
+                    const data = doc.data();
+                    titleInput.value = data.title || '';
+                    descriptionInput.value = data.description || '';
+                    if (collection === 'updates') {
+                        imageUrlInput.value = data.bannerUrl || '';
+                    } else {
+                        imageUrlInput.value = data.imageUrl || '';
+                        document.getElementById('channelBotLink').value = data.episodeLink || '';
+                    }
+                    if (collection === 'anime') {
+                        document.getElementById('category').value = data.category || '';
+                        document.getElementById('language').value = data.language || '';
+                    }
                 }
                 loader.style.display = 'none';
             }
@@ -145,64 +203,152 @@
             loader.style.display = 'flex';
             const collection = document.getElementById('collectionName').value;
             const docId = document.getElementById('docId').value;
-            
-            let data = {
-                title: document.getElementById('title').value,
-                imageUrl: document.getElementById('imageUrl').value,
-                description: document.getElementById('description').value,
-                episodeLink: document.getElementById('channelBotLink').value,
-            };
-
-            if (collection === 'anime') {
-                data.category = document.getElementById('category').value;
-                data.language = document.getElementById('language').value;
+            let data;
+            if (collection === 'updates') {
+                data = { title: titleInput.value, bannerUrl: imageUrlInput.value, description: descriptionInput.value, timestamp: firebase.firestore.FieldValue.serverTimestamp() };
+            } else {
+                data = { title: titleInput.value, imageUrl: imageUrlInput.value, description: descriptionInput.value, episodeLink: document.getElementById('channelBotLink').value };
+                if (collection === 'anime') { data.category = document.getElementById('category').value; data.language = document.getElementById('language').value; }
             }
-
             try {
                 if (docId) { await db.collection(collection).doc(docId).set(data, { merge: true }); }
                 else { await db.collection(collection).add(data); }
                 closeForm();
-                fetchCollectionData(collection);
             } catch (err) { alert(err.message); }
             finally { loader.style.display = 'none'; }
         });
         
-        function closeForm() { document.getElementById('form-view').style.display = 'none'; switchView(lastActiveView); }
+        function closeForm() {
+            document.getElementById('form-view').style.display = 'none';
+            switchView(lastActiveView);
+            fetchAllData(); 
+        }
+
         function showAddChoice() { document.getElementById('add-choice-modal').classList.add('active'); }
         function hideAddChoice() { document.getElementById('add-choice-modal').classList.remove('active'); }
+        
+        const colors = [ "#E50914", "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722", "#795548", "#9E9E9E", "#607D8B", "#FFFFFF" ];
+        const colorGrid = document.getElementById('color-grid');
+        colors.forEach(color => {
+            const swatch = document.createElement('div');
+            swatch.className = 'color-swatch';
+            swatch.style.backgroundColor = color;
+            swatch.onclick = () => selectColor(color);
+            colorGrid.appendChild(swatch);
+        });
 
+        function showColorPicker() { hideAddChoice(); switchView('color-picker-view'); }
+        async function selectColor(hexCode) {
+            loader.style.display = 'flex';
+            try {
+                await db.collection('siteConfig').doc('main').set({ primaryColor: hexCode }, { merge: true });
+                applyThemeColor(hexCode);
+                alert('Color updated successfully!');
+                switchView(lastActiveView);
+            } catch (err) { alert('Error updating color: ' + err.message); }
+            finally { loader.style.display = 'none'; }
+        }
+
+        async function showBackgroundForm() {
+            hideAddChoice();
+            loader.style.display = 'flex';
+            try {
+                const doc = await db.collection('siteConfig').doc('main').get();
+                if (doc.exists) { document.getElementById('backgroundUrlInput').value = doc.data().backgroundUrl || ''; }
+            } catch (err) { console.error("Error fetching background URL:", err); }
+            finally { loader.style.display = 'none'; }
+            switchView('background-form-view');
+        }
+
+        document.getElementById('background-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const url = document.getElementById('backgroundUrlInput').value;
+            loader.style.display = 'flex';
+            try {
+                await db.collection('siteConfig').doc('main').set({ backgroundUrl: url }, { merge: true });
+                alert('Background wallpaper updated successfully!');
+                switchView(lastActiveView);
+            } catch (err) { alert('Error updating background: ' + err.message); }
+            finally { loader.style.display = 'none'; }
+        });
+
+        function applyThemeColor(hexCode) { if (hexCode) document.documentElement.style.setProperty('--primary', hexCode); }
+        
+        async function fetchSiteConfig() {
+            try {
+                const doc = await db.collection('siteConfig').doc('main').get();
+                if (doc.exists) applyThemeColor(doc.data().primaryColor);
+            } catch (err) { console.error("Error fetching site config:", err); }
+        }
+        
         async function fetchCollectionData(collectionName) { 
             const listEl = document.getElementById(`${collectionName}-list`); 
+            let query = collectionName === 'updates' ? db.collection(collectionName).orderBy("timestamp", "desc") : db.collection(collectionName).orderBy("title");
             try { 
-                const snapshot = await db.collection(collectionName).orderBy("title").get(); 
-                let html = ''; 
+                const snapshot = await query.get();
+                listEl.innerHTML = ''; 
                 if (!snapshot.empty) { 
                     snapshot.forEach(doc => { 
                         const d = doc.data(); 
-                        html += `<div class="list-item">
-                                    <span>${d.title}</span>
-                                    <div class="list-item-actions">
-                                        <button title="Edit" onclick="openForm('${collectionName}','edit','${doc.id}')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                        </button>
-                                    </div>
-                                 </div>`; 
+                        const displayName = d.title || (collectionName === 'updates' ? (d.description || 'No Description').substring(0, 40) + '...' : 'No Title');
+                        const itemEl = document.createElement('div');
+                        itemEl.className = 'list-item';
+                        itemEl.innerHTML = `<span></span><div class="list-item-actions"><button title="Edit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button><button title="Delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div>`;
+                        itemEl.querySelector('span').textContent = displayName;
+                        itemEl.querySelector('button[title="Edit"]').onclick = () => openForm(collectionName, 'edit', doc.id);
+                        itemEl.querySelector('button[title="Delete"]').onclick = () => deleteDoc(collectionName, doc.id, displayName);
+                        listEl.appendChild(itemEl);
                     }); 
-                } else { 
-                    html = `<p>No data found.</p>`; 
-                } 
-                listEl.innerHTML = html; 
-            } catch (e) { 
-                listEl.innerHTML = `<p>Error loading data.</p>`; 
-            } 
+                } else { listEl.innerHTML = `<p>No data found.</p>`; } 
+            } catch (e) { console.error(e); listEl.innerHTML = `<p>Error loading data.</p>`; } 
         }
 
+        async function deleteDoc(collection, docId, title) { if (confirm(`Delete "${title}"?`)) { await db.collection(collection).doc(docId).delete(); fetchAllData(); } }
+        
+        async function fetchSettingsData(collectionName) {
+            const listElId = collectionName === 'animeBanners' ? 'banner-settings-list' : 'anime-settings-list';
+            const listEl = document.getElementById(listElId);
+            try {
+                const snapshot = await db.collection(collectionName).orderBy("title").get();
+                listEl.innerHTML = '';
+                if (!snapshot.empty) {
+                    snapshot.forEach(doc => {
+                        const d = doc.data();
+                        const currentButtonText = d.buttonText || 'Watch Now';
+                        const itemEl = document.createElement('div');
+                        itemEl.className = 'list-item';
+                        itemEl.innerHTML = `<div class="list-item-details"><span></span><span class="current-btn-text"></span></div><button class="btn-change-text">Change</button>`;
+                        itemEl.querySelector('span').textContent = d.title;
+                        itemEl.querySelector('.current-btn-text').textContent = `Button: ${currentButtonText}`;
+                        itemEl.querySelector('.btn-change-text').onclick = () => changeButtonText(collectionName, doc.id, d.title, currentButtonText);
+                        listEl.appendChild(itemEl);
+                    });
+                } else { listEl.innerHTML = `<p>No data found.</p>`; }
+            } catch (e) { console.error("Error loading settings:", e); listEl.innerHTML = `<p>Error loading settings data.</p>`; }
+        }
+
+        async function changeButtonText(collection, docId, title, currentText) {
+            const newText = prompt(`Enter new button text for "${title}":`, currentText);
+            if (newText && newText.trim() !== '') {
+                loader.style.display = 'flex';
+                try {
+                    await db.collection(collection).doc(docId).update({ buttonText: newText });
+                    fetchSettingsData(collectionName); // <-- यहाँ बग था, इसे ठीक किया गया
+                } catch (err) { alert('Error updating button text: ' + err.message); }
+                finally { loader.style.display = 'none'; }
+            }
+        }
+        
         function fetchAllData() { 
+            fetchSiteConfig();
             fetchCollectionData('animeBanners'); 
             fetchCollectionData('anime'); 
+            fetchCollectionData('updates');
+            fetchSettingsData('animeBanners');
+            fetchSettingsData('anime');
         }
         
         fetchAllData();
     </script>
 </body>
-</html>
+    </html>
