@@ -66,36 +66,43 @@
         #reply-area { position: fixed; bottom: 0; left: 0; width: 100%; display: flex; padding: 15px; border-top: 1px solid #333; background-color: #181818; z-index: 1600; }
         .reply-input { flex-grow: 1; padding: 10px; background-color: #2c2c2c; border: 1px solid #555; border-radius: 20px; color: var(--text-primary); font-size: 15px; margin-right: 10px; }
         .send-reply-btn { padding: 10px 15px; background-color: var(--primary); border: none; border-radius: 20px; color: var(--text-primary); font-weight: bold; cursor: pointer; }
-        #admin-stats, #user-stats { text-align: center; margin-bottom: 20px; font-size: 18px; color: #ccc; }
+        #admin-stats, #anime-stats, #banner-stats { font-size: 18px; color: #ccc; }
     </style>
 </head>
 <body>
-    <div id="banners-view" class="view active"><div class="container"><header><h1>Banners</h1></header><div class="list-section"><div id="animeBanners-list"></div></div></div></div>
-    <div id="anime-view" class="view"><div class="container"><header><h1>Anime</h1></header><div class="list-section"><div id="anime-list"></div></div></div></div>
+    <div id="banners-view" class="view active">
+        <div class="container">
+            <header>
+                <h1>Banners</h1>
+                <div id="banner-stats"></div>
+            </header>
+            <div class="list-section">
+                <div id="animeBanners-list"></div>
+            </div>
+        </div>
+    </div>
+    <div id="anime-view" class="view">
+        <div class="container">
+            <header>
+                <h1>Anime</h1>
+                <div id="anime-stats"></div>
+            </header>
+            <div class="list-section">
+                <div id="anime-list"></div>
+            </div>
+        </div>
+    </div>
     <div id="updates-view" class="view"><div class="container"><header><h1>Updates</h1></header><div class="list-section"><div id="updates-list"></div></div></div></div>
     <div id="settings-view" class="view"><div class="container"><header><h1>Button Settings</h1></header><h2 style="margin-bottom: 15px;">Banners</h2><div class="list-section" style="margin-bottom: 30px;"><div id="banner-settings-list"></div></div><h2 style="margin-bottom: 15px;">Anime</h2><div class="list-section"><div id="anime-settings-list"></div></div></div></div>
     <div id="color-picker-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Change Button Color</h1><div></div></header><div class="color-grid" id="color-grid"></div></div></div>
     <div id="background-form-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Change Background</h1><div></div></header><form id="background-form"><div class="form-group"><label for="backgroundUrlInput">Background Image URL</label><input type="url" id="backgroundUrlInput" placeholder="https://example.com/image.jpg" required></div><button type="submit" class="btn-primary">Save Background</button><button type="button" class="btn-secondary" onclick="resetBackground()">Reset to Default</button></form></div></div>
     <div id="manage-comment-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Manage Comments</h1><div></div></header><div class="list-section"><div id="comment-anime-list"></div></div></div></div>
     <div id="comment-details-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView('manage-comment-view')">&lt;</button><h1 id="comment-anime-title" style="font-size: 22px;"></h1><div></div></header><div id="comments-list-owner"></div></div><div id="reply-area"><input type="text" id="replyInput" class="reply-input" placeholder="Type a reply..."><button id="sendReplyBtn" class="send-reply-btn">Reply</button></div></div>
-    <div id="manage-admins-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Total Admins</h1><div></div></header><div id="admin-stats"></div><div class="list-section"><div id="admins-list"></div></div></div></div>
-    <div id="manage-users-view" class="view">
-        <div class="container">
-            <header>
-                <button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button>
-                <h1>Total Users</h1>
-                <div></div>
-            </header>
-            <div id="user-stats"></div>
-            <div class="list-section">
-                <div id="users-list"></div>
-            </div>
-        </div>
-    </div>
+    <div id="manage-admins-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Total Admins</h1><div></div></header><div id="admin-stats" style="text-align: center; margin-bottom: 20px;"></div><div class="list-section"><div id="admins-list"></div></div></div></div>
     <div id="website-name-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Change Website Name</h1><div></div></header><form id="website-name-form"><div class="form-group"><label for="websiteNameInput">Website Name</label><input type="text" id="websiteNameInput" placeholder="Enter new name" required></div><button type="submit" class="btn-primary">Save Change</button><button type="button" class="btn-secondary" onclick="resetWebsiteName()">Reset to Default</button></form></div></div>
     <div id="title-color-picker-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Change Title Colour</h1><div></div></header><div class="color-grid" id="title-color-grid"></div></div></div>
     <div id="form-view"><div class="form-container container"><div class="form-header"><h2 id="form-title"></h2><button class="btn-close-form" onclick="closeForm()">×</button></div><form id="main-form"><input type="hidden" id="docId"><input type="hidden" id="collectionName"><div class="form-group"><label for="title">Title</label><input type="text" id="title"></div><div class="form-group"><label for="imageUrl" id="imageUrlLabel">Image URL</label><input type="url" id="imageUrl"></div><div class="form-group"><label for="category">Category</label><input type="text" id="category"></div><div class="form-group"><label for="description">Description</label><textarea id="description"></textarea></div><div class="form-group"><label for="language">Language</label><input type="text" id="language"></div><div class="form-group"><label for="channelBotLink">Channel Link</label><input type="url" id="channelBotLink"></div><button type="submit" class="btn-primary" style="margin-top: 20px;">Save</button></form></div></div>
-    <div id="add-choice-modal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Options</h2><button class="close-btn" onclick="hideAddChoice()">×</button></div><div class="choice-buttons"><button class="btn-primary" onclick="openManageUsers()">Total Users</button><button class="btn-primary" onclick="openManageComments()">Manage Comment</button><button class="btn-primary" onclick="openManageAdmins()">Total Admins</button><button class="btn-primary" onclick="showNameChangeForm()">Change Website Name</button><button class="btn-primary" onclick="showTitleColorPicker()">Change Web Title Colour</button><button class="btn-primary" onclick="openForm('updates')">Add Update</button><button class="btn-primary" onclick="openForm('anime')">Add Anime</button><button class="btn-primary" onclick="openForm('animeBanners')">Add Banner</button><button class="btn-primary" onclick="showColorPicker()">Change Button Color</button><button class="btn-primary" onclick="showBackgroundForm()">Change Background Wallpaper</button></div></div></div>
+    <div id="add-choice-modal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Options</h2><button class="close-btn" onclick="hideAddChoice()">×</button></div><div class="choice-buttons"><button class="btn-primary" onclick="openManageComments()">Manage Comment</button><button class="btn-primary" onclick="openManageAdmins()">Total Admins</button><button class="btn-primary" onclick="showNameChangeForm()">Change Website Name</button><button class="btn-primary" onclick="showTitleColorPicker()">Change Web Title Colour</button><button class="btn-primary" onclick="openForm('updates')">Add Update</button><button class="btn-primary" onclick="openForm('anime')">Add Anime</button><button class="btn-primary" onclick="openForm('animeBanners')">Add Banner</button><button class="btn-primary" onclick="showColorPicker()">Change Button Color</button><button class="btn-primary" onclick="showBackgroundForm()">Change Background Wallpaper</button></div></div></div>
     <nav class="bottom-action-bar"><button id="nav-banners" class="bar-icon active" onclick="switchView('banners-view')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg><span>Banners</span></button><button id="nav-anime" class="bar-icon" onclick="switchView('anime-view')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg><span>Anime</span></button><button class="fab" onclick="showAddChoice()">+</button><button id="nav-updates" class="bar-icon" onclick="switchView('updates-view')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12h2.5"/><path d="M19.5 7.5c-1.342-2.13-3.42-3.5-5.5-3.5-3.038 0-6.5 2.462-6.5 5.5s3.462 6.5 6.5 6.5c2.08 0 4.158-1.37 5.5-3.5"/><path d="M12.5 8H12v6h6"/></svg><span>Updates</span></button><button id="nav-settings" class="bar-icon" onclick="switchView('settings-view')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Settings</span></button></nav>
     <div id="loader"><div class="spinner"></div></div>
 
@@ -116,7 +123,7 @@
         function switchView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
-            const specialViews = ['color-picker-view', 'background-form-view', 'manage-comment-view', 'comment-details-view', 'manage-admins-view', 'manage-users-view', 'website-name-view', 'title-color-picker-view'];
+            const specialViews = ['color-picker-view', 'background-form-view', 'manage-comment-view', 'comment-details-view', 'manage-admins-view', 'website-name-view', 'title-color-picker-view'];
             if (!specialViews.includes(viewId)) {
                 lastActiveView = viewId;
                 document.querySelectorAll('.bar-icon').forEach(i => i.classList.remove('active'));
@@ -175,13 +182,37 @@
         async function resetBackground() { if (confirm("Are you sure you want to reset the background to the default color?")) { loader.style.display = 'flex'; try { await db.collection('siteConfig').doc('main').set({ backgroundUrl: "" }, { merge: true }); document.getElementById('backgroundUrlInput').value = ""; alert('Background has been reset to default.'); switchView(lastActiveView); } catch (err) { alert('Error resetting background: ' + err.message); } finally { loader.style.display = 'none'; } } }
         function applyThemeColor(hexCode) { if (hexCode) document.documentElement.style.setProperty('--primary', hexCode); }
         async function fetchSiteConfig() { try { const doc = await db.collection('siteConfig').doc('main').get(); if (doc.exists) applyThemeColor(doc.data().primaryColor); } catch (err) { console.error("Error fetching site config:", err); } }
+        
         async function fetchCollectionData(collectionName) { 
-            const listEl = document.getElementById(`${collectionName}-list`); let query = collectionName === 'updates' ? db.collection(collectionName).orderBy("timestamp", "desc") : db.collection(collectionName).orderBy("title"); 
-            try { const snapshot = await query.get(); listEl.innerHTML = ''; 
-                if (!snapshot.empty) { snapshot.forEach(doc => { const d = doc.data(); const displayName = d.title || (collectionName === 'updates' ? (d.description || 'No Description').substring(0, 40) + '...' : 'No Title'); const itemEl = document.createElement('div'); itemEl.className = 'list-item'; itemEl.innerHTML = `<span></span><div class="list-item-actions"><button title="Edit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button><button title="Delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div>`; itemEl.querySelector('span').textContent = displayName; itemEl.querySelector('button[title="Edit"]').onclick = () => openForm(collectionName, 'edit', doc.id); itemEl.querySelector('button[title="Delete"]').onclick = () => deleteDoc(collectionName, doc.id, displayName); listEl.appendChild(itemEl); }); } 
+            const listEl = document.getElementById(`${collectionName}-list`); 
+            let query = collectionName === 'updates' ? db.collection(collectionName).orderBy("timestamp", "desc") : db.collection(collectionName).orderBy("title"); 
+            try { 
+                const snapshot = await query.get(); 
+                
+                if (collectionName === 'anime') {
+                    document.getElementById('anime-stats').innerHTML = `Total Anime: ${snapshot.size}`;
+                } else if (collectionName === 'animeBanners') {
+                    document.getElementById('banner-stats').innerHTML = `Total Banners: ${snapshot.size}`;
+                }
+
+                listEl.innerHTML = ''; 
+                if (!snapshot.empty) { 
+                    snapshot.forEach(doc => { 
+                        const d = doc.data(); 
+                        const displayName = d.title || (collectionName === 'updates' ? (d.description || 'No Description').substring(0, 40) + '...' : 'No Title'); 
+                        const itemEl = document.createElement('div'); 
+                        itemEl.className = 'list-item'; 
+                        itemEl.innerHTML = `<span></span><div class="list-item-actions"><button title="Edit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button><button title="Delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div>`; 
+                        itemEl.querySelector('span').textContent = displayName; 
+                        itemEl.querySelector('button[title="Edit"]').onclick = () => openForm(collectionName, 'edit', doc.id); 
+                        itemEl.querySelector('button[title="Delete"]').onclick = () => deleteDoc(collectionName, doc.id, displayName); 
+                        listEl.appendChild(itemEl); 
+                    }); 
+                } 
                 else { listEl.innerHTML = `<p>No data found.</p>`; } 
             } catch (e) { console.error(e); listEl.innerHTML = `<p>Error loading data.</p>`; } 
         }
+
         async function deleteDoc(collection, docId, title) { if (confirm(`Delete "${title}"?`)) { await db.collection(collection).doc(docId).delete(); fetchAllData(); } }
         async function fetchSettingsData(collectionName) {
             const listElId = collectionName === 'animeBanners' ? 'banner-settings-list' : 'anime-settings-list';
@@ -201,35 +232,8 @@
         async function fetchAdmins() { const listEl = document.getElementById('admins-list'); const statsEl = document.getElementById('admin-stats'); listEl.innerHTML = '<p>Loading admins...</p>'; statsEl.innerHTML = ''; try { const snapshot = await db.collection('admins').get(); const date = new Date().toLocaleDateString('en-GB'); statsEl.innerHTML = `${date}<br>Total Admins: ${snapshot.size}`; if (snapshot.empty) { listEl.innerHTML = '<p>No admins found.</p>'; return; } listEl.innerHTML = ''; snapshot.forEach(doc => { const admin = doc.data(); const itemEl = document.createElement('div'); itemEl.className = 'list-item'; const status = admin.status === 'banned' ? ' (Banned)' : ''; itemEl.innerHTML = `<span>${admin.name}${status}</span><div class="list-item-actions"><button title="Ban/Unban"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg></button><button title="Delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div>`; itemEl.querySelector('button[title="Ban/Unban"]').onclick = () => toggleBanAdmin(doc.id, admin.name, admin.status); itemEl.querySelector('button[title="Delete"]').onclick = () => deleteAdmin(doc.id, admin.name); listEl.appendChild(itemEl); }); } catch (err) { listEl.innerHTML = '<p>Error loading admins.</p>'; console.error(err); } }
         async function deleteAdmin(adminId, adminName) { if (confirm(`PERMANENTLY DELETE admin "${adminName}"?`)) { await db.collection('admins').doc(adminId).delete(); fetchAdmins(); } }
         async function toggleBanAdmin(adminId, adminName, currentStatus) { const newStatus = currentStatus === 'banned' ? 'active' : 'banned'; const action = newStatus === 'banned' ? 'BAN' : 'UNBAN'; if (confirm(`Are you sure you want to ${action} "${adminName}"?`)) { await db.collection('admins').doc(adminId).update({ status: newStatus }); fetchAdmins(); } }
-        function openManageUsers() { hideAddChoice(); switchView('manage-users-view'); fetchUsers(); }
-        async function fetchUsers() {
-            const listEl = document.getElementById('users-list');
-            const statsEl = document.getElementById('user-stats');
-            listEl.innerHTML = '<p>Loading users...</p>';
-            statsEl.innerHTML = '';
-            try {
-                const snapshot = await db.collection('users').orderBy('createdAt', 'desc').get();
-                statsEl.innerHTML = `Total Users: ${snapshot.size}`;
-                if (snapshot.empty) { listEl.innerHTML = '<p>No users found.</p>'; return; }
-                listEl.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const user = doc.data(); const itemEl = document.createElement('div'); itemEl.className = 'list-item';
-                    const status = user.status === 'banned' ? ' (Banned)' : '';
-                    itemEl.innerHTML = `<span>${user.name}${status}</span><div class="list-item-actions"><button title="Ban/Unban"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg></button><button title="Delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div>`;
-                    itemEl.querySelector('button[title="Ban/Unban"]').onclick = () => toggleBanUser(doc.id, user.name, user.status);
-                    itemEl.querySelector('button[title="Delete"]').onclick = () => deleteUser(doc.id, user.name);
-                    listEl.appendChild(itemEl);
-                });
-            } catch (err) { listEl.innerHTML = '<p>Error loading users.</p>'; console.error(err); }
-        }
-        async function deleteUser(userId, userName) { if (confirm(`Are you sure you want to PERMANENTLY DELETE user "${userName}"?`)) { await db.collection('users').doc(userId).delete(); fetchUsers(); } }
-        async function toggleBanUser(userId, userName, currentStatus) { const newStatus = currentStatus === 'banned' ? 'active' : 'banned'; const action = newStatus === 'banned' ? 'BAN' : 'UNBAN'; if (confirm(`Are you sure you want to ${action} "${userName}"?`)) { await db.collection('users').doc(userId).update({ status: newStatus }); fetchUsers(); } }
         function fetchAllData() { fetchSiteConfig(); fetchCollectionData('animeBanners'); fetchCollectionData('anime'); fetchCollectionData('updates'); fetchSettingsData('animeBanners'); fetchSettingsData('anime'); }
-        
-        // Initialize the correct app when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-             fetchAllData();
-        });
+        fetchAllData();
     </script>
 </body>
-     </html>
+    </html>
