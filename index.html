@@ -114,12 +114,17 @@
 
     <div id="website-name-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Change Website Name</h1><div></div></header><form id="website-name-form"><div class="form-group"><label for="websiteNameInput">Website Name</label><input type="text" id="websiteNameInput" placeholder="Enter new name" required></div><button type="submit" class="btn-primary">Save Change</button><button type="button" class="btn-secondary" onclick="resetWebsiteName()">Reset to Default</button></form></div></div>
     <div id="title-color-picker-view" class="view"><div class="container"><header><button class="btn-back" onclick="switchView(lastActiveView)">&lt;</button><h1>Change Title Colour</h1><div></div></header><div class="color-grid" id="title-color-grid"></div></div></div>
-    <div id="form-view"><div class="form-container container"><div class="form-header"><h2 id="form-title"></h2><button class="btn-close-form" onclick="closeForm()">×</button></div><form id="main-form"><input type="hidden" id="docId"><input type="hidden" id="collectionName"><div class="form-group"><label for="title">Title</label><input type="text" id="title"></div><div class="form-group"><label for="imageUrl" id="imageUrlLabel">Image URL</label><input type="url" id="imageUrl"></div><div class="form-group"><label for="category">Category</label><input type="text" id="category"></div><div class="form-group"><label for="description">Description</label><textarea id="description"></textarea></div><div class="form-group"><label for="language">Language</label><input type="text" id="language"></div><div class="form-group"><label for="channelBotLink">Channel Link</label><input type="url" id="channelBotLink"></div><button type="submit" class="btn-primary" style="margin-top: 20px;">Save</button></form></div></div>
+    
+    <!-- === HTML FORM MEIN BADLAAV YAHAN HAI === -->
+    <div id="form-view"><div class="form-container container"><div class="form-header"><h2 id="form-title"></h2><button class="btn-close-form" onclick="closeForm()">×</button></div><form id="main-form"><input type="hidden" id="docId"><input type="hidden" id="collectionName"><div class="form-group"><label for="title">Title</label><input type="text" id="title"></div><div class="form-group"><label for="imageUrl" id="imageUrlLabel">Image URL</label><input type="url" id="imageUrl"></div><div class="form-group"><label for="category">Category</label><input type="text" id="category"></div><div class="form-group"><label for="description">Description</label><textarea id="description"></textarea></div><div class="form-group"><label for="groupChatLink">Group Chat Link</label><input type="url" id="groupChatLink"></div><div class="form-group"><label for="language">Language</label><input type="text" id="language"></div><div class="form-group"><label for="channelBotLink">Channel Link</label><input type="url" id="channelBotLink"></div><button type="submit" class="btn-primary" style="margin-top: 20px;">Save</button></form></div></div>
+    
+    <!-- === + ICON MENU MEIN BADLAAV YAHAN HAI === -->
     <div id="add-choice-modal" class="modal"><div class="modal-content"><div class="modal-header"><h2>Options</h2><button class="close-btn" onclick="hideAddChoice()">×</button></div><div class="choice-buttons">
         <button class="btn-primary" onclick="openManageUsers()">Total Users</button>
         <button class="btn-primary" onclick="openManageAdmins()">Total Admins</button>
-        <button class="btn-primary" onclick="openManageComments()">Manage Comment</button>
+        <!-- Manage Comment button yahan se hata diya gaya hai -->
         <button class="btn-primary" onclick="showNameChangeForm()">Change Website Name</button><button class="btn-primary" onclick="showTitleColorPicker()">Change Web Title Colour</button><button class="btn-primary" onclick="openForm('updates')">Add Update</button><button class="btn-primary" onclick="openForm('anime')">Add Anime</button><button class="btn-primary" onclick="openForm('animeBanners')">Add Banner</button><button class="btn-primary" onclick="showColorPicker()">Change Button Color</button><button class="btn-primary" onclick="showBackgroundForm()">Change Background Wallpaper</button></div></div></div>
+
     <nav class="bottom-action-bar"><button id="nav-banners" class="bar-icon active" onclick="switchView('banners-view')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg><span>Banners</span></button><button id="nav-anime" class="bar-icon" onclick="switchView('anime-view')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg><span>Anime</span></button><button class="fab" onclick="showAddChoice()">+</button><button id="nav-updates" class="bar-icon" onclick="switchView('updates-view')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12h2.5"/><path d="M19.5 7.5c-1.342-2.13-3.42-3.5-5.5-3.5-3.038 0-6.5 2.462-6.5 5.5s3.462 6.5 6.5 6.5c2.08 0 4.158-1.37 5.5-3.5"/><path d="M12.5 8H12v6h6"/></svg><span>Updates</span></button><button id="nav-settings" class="bar-icon" onclick="switchView('settings-view')"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Settings</span></button></nav>
     <div id="loader"><div class="spinner"></div></div>
 
@@ -148,6 +153,8 @@
                 if (document.getElementById(navIconId)) document.getElementById(navIconId).classList.add('active');
             }
         }
+        
+        // === JAVASCRIPT openForm FUNCTION MEIN BADLAAV YAHAN HAI ===
         async function openForm(collection, mode = 'add', docId = null) {
             hideAddChoice(); mainForm.reset();
             document.getElementById('docId').value = docId; document.getElementById('collectionName').value = collection;
@@ -155,14 +162,23 @@
             document.querySelectorAll('#main-form .form-group').forEach(group => group.style.display = 'none');
             let formTitle = ''; document.getElementById('imageUrlLabel').innerText = 'Image URL';
             if (collection === 'anime' || collection === 'animeBanners') { formTitle = `${mode === 'edit' ? 'Edit' : 'Add New'} ${collection === 'anime' ? 'Anime' : 'Banner'}`; document.querySelectorAll('#title, #imageUrl, #description, #channelBotLink').forEach(el => el.parentElement.style.display = 'block'); titleInput.required = true; imageUrlInput.required = true; if (collection === 'anime') { document.querySelectorAll('#category, #language').forEach(el => el.parentElement.style.display = 'block'); }
-            } else if (collection === 'updates') { formTitle = `${mode === 'edit' ? 'Edit' : 'Add New'} Update`; document.querySelectorAll('#title, #imageUrl, #description').forEach(el => el.parentElement.style.display = 'block'); document.getElementById('imageUrlLabel').innerText = 'Banner URL'; imageUrlInput.required = true; descriptionInput.required = true; }
+            } else if (collection === 'updates') { 
+                formTitle = `${mode === 'edit' ? 'Edit' : 'Add New'} Update`; 
+                // Group Chat Link field ko bhi show kiya ja raha hai
+                document.querySelectorAll('#title, #imageUrl, #description, #groupChatLink').forEach(el => el.parentElement.style.display = 'block'); 
+                document.getElementById('imageUrlLabel').innerText = 'Banner URL'; imageUrlInput.required = true; descriptionInput.required = true; 
+            }
             document.getElementById('form-title').innerText = formTitle;
             if (mode === 'edit' && docId) {
                 loader.style.display = 'flex';
                 const doc = await db.collection(collection).doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data(); titleInput.value = data.title || ''; descriptionInput.value = data.description || '';
-                    if (collection === 'updates') { imageUrlInput.value = data.bannerUrl || ''; } 
+                    if (collection === 'updates') { 
+                        imageUrlInput.value = data.bannerUrl || ''; 
+                        // Edit karte waqt Group Chat Link load kiya ja raha hai
+                        document.getElementById('groupChatLink').value = data.groupChatLink || '';
+                    } 
                     else { imageUrlInput.value = data.imageUrl || ''; document.getElementById('channelBotLink').value = data.episodeLink || ''; }
                     if (collection === 'anime') { document.getElementById('category').value = data.category || ''; document.getElementById('language').value = data.language || ''; }
                 }
@@ -170,14 +186,27 @@
             }
             document.getElementById('form-view').style.display = 'block';
         }
+
+        // === JAVASCRIPT FORM SUBMIT MEIN BADLAAV YAHAN HAI ===
         mainForm.addEventListener('submit', async (e) => {
             e.preventDefault(); loader.style.display = 'flex';
             const collection = document.getElementById('collectionName').value; const docId = document.getElementById('docId').value; let data;
-            if (collection === 'updates') { data = { title: titleInput.value, bannerUrl: imageUrlInput.value, description: descriptionInput.value, timestamp: firebase.firestore.FieldValue.serverTimestamp() }; } 
+            if (collection === 'updates') { 
+                // Data save karte waqt Group Chat Link bhi save kiya ja raha hai
+                data = { 
+                    title: titleInput.value, 
+                    bannerUrl: imageUrlInput.value, 
+                    description: descriptionInput.value, 
+                    groupChatLink: document.getElementById('groupChatLink').value,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+                }; 
+            } 
             else { data = { title: titleInput.value, imageUrl: imageUrlInput.value, description: descriptionInput.value, episodeLink: document.getElementById('channelBotLink').value }; if (collection === 'anime') { data.category = document.getElementById('category').value; data.language = document.getElementById('language').value; } }
             try { if (docId) { await db.collection(collection).doc(docId).set(data, { merge: true }); } else { await db.collection(collection).add(data); } closeForm(); } 
             catch (err) { alert(err.message); } finally { loader.style.display = 'none'; }
         });
+
+        // --- Baaki JavaScript code waisa hi hai ---
         function closeForm() { document.getElementById('form-view').style.display = 'none'; switchView(lastActiveView); fetchAllData(); }
         function showAddChoice() { document.getElementById('add-choice-modal').classList.add('active'); }
         function hideAddChoice() { document.getElementById('add-choice-modal').classList.remove('active'); }
@@ -199,7 +228,6 @@
         async function resetBackground() { if (confirm("Are you sure you want to reset the background to the default color?")) { loader.style.display = 'flex'; try { await db.collection('siteConfig').doc('main').set({ backgroundUrl: "" }, { merge: true }); document.getElementById('backgroundUrlInput').value = ""; alert('Background has been reset to default.'); switchView(lastActiveView); } catch (err) { alert('Error resetting background: ' + err.message); } finally { loader.style.display = 'none'; } } }
         function applyThemeColor(hexCode) { if (hexCode) document.documentElement.style.setProperty('--primary', hexCode); }
         async function fetchSiteConfig() { try { const doc = await db.collection('siteConfig').doc('main').get(); if (doc.exists) applyThemeColor(doc.data().primaryColor); } catch (err) { console.error("Error fetching site config:", err); } }
-        
         function filterAnime() {
             const input = document.getElementById('animeSearchInput');
             const filter = input.value.toLowerCase();
@@ -215,7 +243,6 @@
                 }
             }
         }
-
         async function fetchCollectionData(collectionName) { 
             const listEl = document.getElementById(`${collectionName}-list`); 
             let query = collectionName === 'updates' ? db.collection(collectionName).orderBy("timestamp", "desc") : db.collection(collectionName).orderBy("title"); 
@@ -240,7 +267,6 @@
                 else { listEl.innerHTML = `<p>No data found.</p>`; } 
             } catch (e) { console.error(e); listEl.innerHTML = `<p>Error loading data.</p>`; } 
         }
-
         async function deleteDoc(collection, docId, title) { if (confirm(`Delete "${title}"?`)) { await db.collection(collection).doc(docId).delete(); fetchAllData(); } }
         async function fetchSettingsData(collectionName) {
             const listElId = collectionName === 'animeBanners' ? 'banner-settings-list' : 'anime-settings-list';
@@ -251,126 +277,38 @@
             } catch (e) { console.error("Error loading settings:", e); listEl.innerHTML = `<p>Error loading settings data.</p>`; }
         }
         async function changeButtonText(collection, docId, title, currentText) { const newText = prompt(`Enter new button text for "${title}":`, currentText); if (newText && newText.trim() !== '') { loader.style.display = 'flex'; try { await db.collection(collection).doc(docId).update({ buttonText: newText }); fetchSettingsData(collection); } catch (err) { alert('Error updating button text: ' + err.message); } finally { loader.style.display = 'none'; } } }
-        function openManageComments() { hideAddChoice(); switchView('manage-comment-view'); fetchCommentableAnime(); }
-        async function fetchCommentableAnime() { const listEl = document.getElementById('comment-anime-list'); listEl.innerHTML = '<p>Loading anime...</p>'; try { const snapshot = await db.collection('anime').orderBy('title').get(); if (snapshot.empty) { listEl.innerHTML = '<p>No anime found.</p>'; return; } listEl.innerHTML = ''; snapshot.forEach(doc => { const anime = doc.data(); const card = document.createElement('div'); card.className = 'comment-card'; card.innerHTML = `<img src="${anime.imageUrl}" class="comment-card-poster"><span>${anime.title}</span>`; card.onclick = () => openCommentDetails(doc.id, anime.title); listEl.appendChild(card); }); } catch (err) { listEl.innerHTML = '<p>Error loading anime.</p>'; console.error(err); } }
-        function openCommentDetails(animeId, animeTitle) { document.getElementById('comment-anime-title').innerText = animeTitle; const commentsListEl = document.getElementById('comments-list-owner'); commentsListEl.innerHTML = '<p>Loading comments...</p>'; switchView('comment-details-view'); if (currentCommentListener) currentCommentListener(); currentCommentListener = db.collection('anime').doc(animeId).collection('comments').orderBy('timestamp', 'asc').onSnapshot(snapshot => { commentsListEl.innerHTML = ''; if (snapshot.empty) { commentsListEl.innerHTML = '<p>No comments yet.</p>'; return; } snapshot.forEach(doc => { const comment = doc.data(); const item = document.createElement('div'); item.className = 'comment-item'; if(comment.isOwnerReply) item.classList.add('owner'); const author = comment.isOwnerReply ? `<span class="comment-author">Owner <span class="owner-icon">👑</span></span>` : `<span class="comment-author">${comment.name || 'Anonymous'}</span>`; item.innerHTML = `<div class="comment-header">${author}<button class="comment-delete-btn" title="Delete Comment">&times;</button></div><p>${comment.text}</p>`; item.querySelector('.comment-delete-btn').onclick = () => deleteComment(animeId, doc.id); commentsListEl.appendChild(item); }); }); document.getElementById('sendReplyBtn').onclick = () => sendOwnerReply(animeId); }
-        async function sendOwnerReply(animeId) { const input = document.getElementById('replyInput'); const text = input.value.trim(); if (text === '') return; try { await db.collection('anime').doc(animeId).collection('comments').add({ text: text, isOwnerReply: true, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); input.value = ''; } catch (err) { alert('Failed to send reply.'); console.error(err); } }
-        async function deleteComment(animeId, commentId) { if (confirm('Delete this comment?')) { try { await db.collection('anime').doc(animeId).collection('comments').doc(commentId).delete(); } catch (err) { alert('Failed to delete comment.'); console.error(err); } } }
-        function openManageAdmins() { hideAddChoice(); switchView('manage-admins-view'); fetchAdmins(); }
-        
-        // ===== fetchAdmins FUNCTION MEIN BADLAV KIYA GAYA HAI =====
-        async function fetchAdmins() {
-            const listEl = document.getElementById('admins-list');
-            const statsEl = document.getElementById('admin-stats');
-            listEl.innerHTML = '<p>Loading admins...</p>';
-            statsEl.innerHTML = '';
+        function openManageUsers() { hideAddChoice(); switchView('manage-users-view'); fetchUsers(); }
+        async function fetchUsers() {
+            const listEl = document.getElementById('users-list'); const statsEl = document.getElementById('user-stats'); listEl.innerHTML = '<p>Loading users...</p>'; statsEl.innerHTML = '';
             try {
-                // Naye admins ko upar dikhane ke liye createdAt se sort kiya gaya
-                const snapshot = await db.collection('admins').orderBy('createdAt', 'desc').get();
-                const date = new Date().toLocaleDateString('en-GB');
-                statsEl.innerHTML = `${date}<br>Total Admins: ${snapshot.size}`;
-                if (snapshot.empty) {
-                    listEl.innerHTML = '<p>No admins found.</p>';
-                    return;
-                }
+                const snapshot = await db.collection('users').orderBy('createdAt', 'desc').get(); statsEl.innerHTML = `Total Users: ${snapshot.size}`;
+                if (snapshot.empty) { listEl.innerHTML = '<p>No users found.</p>'; return; }
                 listEl.innerHTML = '';
                 snapshot.forEach(doc => {
-                    const admin = doc.data();
-                    const itemEl = document.createElement('div');
-                    itemEl.className = 'list-item';
-                    
-                    const status = admin.status === 'banned' ? ' (Banned)' : '';
-                    // Admin ke judne ka samay liya gaya
-                    const creationDate = admin.createdAt ? admin.createdAt.toDate().toLocaleString('en-GB') : 'Unknown date';
-
-                    // HTML mein timestamp (samay) joda gaya
-                    itemEl.innerHTML = `
-                        <div class="list-item-details">
-                            <span>${admin.name}${status}</span>
-                            <span class="user-timestamp">${creationDate}</span>
-                        </div>
-                        <div class="list-item-actions">
-                            <button title="Ban/Unban"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg></button>
-                            <button title="Delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
-                        </div>`;
-                        
-                    itemEl.querySelector('button[title="Ban/Unban"]').onclick = () => toggleBanAdmin(doc.id, admin.name, admin.status);
-                    itemEl.querySelector('button[title="Delete"]').onclick = () => deleteAdmin(doc.id, admin.name);
-                    listEl.appendChild(itemEl);
+                    const user = doc.data(); const itemEl = document.createElement('div'); itemEl.className = 'list-item'; const status = user.status === 'banned' ? ' (Banned)' : ''; const creationDate = user.createdAt ? user.createdAt.toDate().toLocaleString('en-GB') : 'Unknown date';
+                    itemEl.innerHTML = `<div class="list-item-details"><span>${user.name}${status}</span><span class="user-timestamp">${creationDate}</span></div><div class="list-item-actions"><button title="Ban/Unban"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg></button><button title="Delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div>`;
+                    itemEl.querySelector('button[title="Ban/Unban"]').onclick = () => toggleBanUser(doc.id, user.name, user.status); itemEl.querySelector('button[title="Delete"]').onclick = () => deleteUser(doc.id, user.name); listEl.appendChild(itemEl);
                 });
-            } catch (err) {
-                listEl.innerHTML = '<p>Error loading admins.</p>';
-                console.error(err);
-            }
+            } catch (err) { listEl.innerHTML = '<p>Error loading users.</p>'; console.error(err); }
         }
-        
+        async function toggleBanUser(userId, userName, currentStatus) { const newStatus = currentStatus === 'banned' ? 'active' : 'banned'; const action = newStatus === 'banned' ? 'BAN' : 'UNBAN'; if (confirm(`Are you sure you want to ${action} user "${userName}"?`)) { await db.collection('users').doc(userId).update({ status: newStatus }); fetchUsers(); } }
+        async function deleteUser(userId, userName) { if (confirm(`PERMANENTLY DELETE user "${userName}"? This cannot be undone.`)) { await db.collection('users').doc(userId).delete(); fetchUsers(); } }
+        function openManageAdmins() { hideAddChoice(); switchView('manage-admins-view'); fetchAdmins(); }
+        async function fetchAdmins() {
+            const listEl = document.getElementById('admins-list'); const statsEl = document.getElementById('admin-stats'); listEl.innerHTML = '<p>Loading admins...</p>'; statsEl.innerHTML = '';
+            try {
+                const snapshot = await db.collection('admins').orderBy('createdAt', 'desc').get(); const date = new Date().toLocaleDateString('en-GB'); statsEl.innerHTML = `${date}<br>Total Admins: ${snapshot.size}`;
+                if (snapshot.empty) { listEl.innerHTML = '<p>No admins found.</p>'; return; }
+                listEl.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const admin = doc.data(); const itemEl = document.createElement('div'); itemEl.className = 'list-item'; const status = admin.status === 'banned' ? ' (Banned)' : ''; const creationDate = admin.createdAt ? admin.createdAt.toDate().toLocaleString('en-GB') : 'Unknown date';
+                    itemEl.innerHTML = `<div class="list-item-details"><span>${admin.name}${status}</span><span class="user-timestamp">${creationDate}</span></div><div class="list-item-actions"><button title="Ban/Unban"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg></button><button title="Delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></div>`;
+                    itemEl.querySelector('button[title="Ban/Unban"]').onclick = () => toggleBanAdmin(doc.id, admin.name, admin.status); itemEl.querySelector('button[title="Delete"]').onclick = () => deleteAdmin(doc.id, admin.name); listEl.appendChild(itemEl);
+                });
+            } catch (err) { listEl.innerHTML = '<p>Error loading admins.</p>'; console.error(err); }
+        }
         async function deleteAdmin(adminId, adminName) { if (confirm(`PERMANENTLY DELETE admin "${adminName}"?`)) { await db.collection('admins').doc(adminId).delete(); fetchAdmins(); } }
         async function toggleBanAdmin(adminId, adminName, currentStatus) { const newStatus = currentStatus === 'banned' ? 'active' : 'banned'; const action = newStatus === 'banned' ? 'BAN' : 'UNBAN'; if (confirm(`Are you sure you want to ${action} "${adminName}"?`)) { await db.collection('admins').doc(adminId).update({ status: newStatus }); fetchAdmins(); } }
-        
-        function openManageUsers() {
-            hideAddChoice();
-            switchView('manage-users-view');
-            fetchUsers();
-        }
-
-        async function fetchUsers() {
-            const listEl = document.getElementById('users-list');
-            const statsEl = document.getElementById('user-stats');
-            listEl.innerHTML = '<p>Loading users...</p>';
-            statsEl.innerHTML = '';
-            try {
-                const snapshot = await db.collection('users').orderBy('createdAt', 'desc').get();
-                statsEl.innerHTML = `Total Users: ${snapshot.size}`;
-                if (snapshot.empty) {
-                    listEl.innerHTML = '<p>No users found.</p>';
-                    return;
-                }
-                listEl.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const user = doc.data();
-                    const itemEl = document.createElement('div');
-                    itemEl.className = 'list-item';
-                    
-                    const status = user.status === 'banned' ? ' (Banned)' : '';
-                    const creationDate = user.createdAt ? user.createdAt.toDate().toLocaleString('en-GB') : 'Unknown date';
-
-                    itemEl.innerHTML = `
-                        <div class="list-item-details">
-                            <span>${user.name}${status}</span>
-                            <span class="user-timestamp">${creationDate}</span>
-                        </div>
-                        <div class="list-item-actions">
-                            <button title="Ban/Unban"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg></button>
-                            <button title="Delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
-                        </div>`;
-                    
-                    itemEl.querySelector('button[title="Ban/Unban"]').onclick = () => toggleBanUser(doc.id, user.name, user.status);
-                    itemEl.querySelector('button[title="Delete"]').onclick = () => deleteUser(doc.id, user.name);
-                    
-                    listEl.appendChild(itemEl);
-                });
-            } catch (err) {
-                listEl.innerHTML = '<p>Error loading users.</p>';
-                console.error(err);
-            }
-        }
-        
-        async function toggleBanUser(userId, userName, currentStatus) {
-            const newStatus = currentStatus === 'banned' ? 'active' : 'banned';
-            const action = newStatus === 'banned' ? 'BAN' : 'UNBAN';
-            if (confirm(`Are you sure you want to ${action} user "${userName}"?`)) {
-                await db.collection('users').doc(userId).update({ status: newStatus });
-                fetchUsers();
-            }
-        }
-
-        async function deleteUser(userId, userName) {
-            if (confirm(`PERMANENTLY DELETE user "${userName}"? This cannot be undone.`)) {
-                await db.collection('users').doc(userId).delete();
-                fetchUsers();
-            }
-        }
-
         function fetchAllData() { fetchSiteConfig(); fetchCollectionData('animeBanners'); fetchCollectionData('anime'); fetchCollectionData('updates'); fetchSettingsData('animeBanners'); fetchSettingsData('anime'); }
         fetchAllData();
     </script>
